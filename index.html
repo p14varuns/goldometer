@@ -31,31 +31,16 @@
         <tr>
           <th scope="col">Currency</th>
           <th scope="col">Price in oz</th>
-          <th scope="col">Change (%)</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>USD</td>
-          <td>1,702.20</td>
-          <td>-1.2%</td>
-        </tr>
-        <tr>
-          <td>GBP</td>
-          <td>1372.08</td>
-          <td>+0.4%</td>
-        </tr>
-        <tr>
-          <td>AUD</td>
-          <td>2,604.35</td>
-          <td>+0.1%</td>
-        </tr>
+      <tbody id="tbody-prices">
+
       </tbody>
     </table>
-    <p>*Last Updated: 9th May, 17:20 GMT</p>
+    <p>*Last Updated: <span id="timestamp">9th May, 17:20</span> GMT</p>
   </div>
 
-  <!-- High and Lows -->
+  <!-- High and Lows
   <div class="container text-center border border-secondary py-2">
     <h2>Highs and Lows</h2>
     <table class="table table-striped table-hover table-sm table-bordered">
@@ -90,9 +75,9 @@
     </table>
     <p>*Last Updated: 9th May, 17:20 GMT</p>
   </div>
+   -->
 
-
-  <!-- Email Support -->
+  <!-- Email Support 
   <div class="container bg-light py-2">
     <h3 class="">Sign up for daily Gold Updates</h3>
     <form>
@@ -107,12 +92,39 @@
       <span class="text-muted">Twitter | About Us | Privacy Policy</span>
     </div>
   </footer>
-
+  -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+      $(document).ready(() => {
+        getPrices();
+      });
+      
+      const getPrices = async () => {
+        try{
+          const response = await fetch('http://api.goldometer.org/');
+          const myJson = await response.json(); //extract JSON from the http response
+          // do something with myJson
+          console.log(myJson);
+          priceData = Object.keys(myJson);
+          for(curr of priceData){
+            if(curr!='timestamp')
+              $("#tbody-prices").append("<tr><td>" + curr + "</td><td>" + myJson[curr] + "</td></tr>");
+          }
+          $("#timestamp").html(myJson['timestamp']);
+          
+          
+        } catch(err){
+          console.log("Unable to load data " + err);
+        }
+        
+      }
+    </script>
+
   </body>
 </html>
