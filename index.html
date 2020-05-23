@@ -13,8 +13,6 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Ask Google not to Crawl right now -->
-    <meta name="robots" content="noindex" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -48,7 +46,7 @@
 
       </tbody>
     </table>
-    <p>*Last Reported: <span id="lastDate">9th May</span> 2:00PM GMT</p>
+    <p>*Last Reported: <span id="lastDate"></span> 2:00PM GMT</p>
   </div>
 
   <!-- Email Support 
@@ -60,13 +58,14 @@
       <button class="btn btn-primary" type="submit">Get Daily Alerts</button>
     </form>
   </div>
+  -->
   
-  <footer class="footer">
+  <footer class="footer float-right">
     <div class="container">
-      <span class="text-muted">Twitter | About Us | Privacy Policy</span>
+      <span class="text-muted">About Us | Privacy Policy</span>
     </div>
   </footer>
-  -->
+  
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -78,6 +77,16 @@
       $(document).ready(() => {
         getPrices();
       });
+
+      const getChangeHTML = (num) => {
+        if(num < 0){
+          return "<td style='color:red'>" + num + "%</td>";
+        } else if (num > 0){
+          return "<td style='color:green'>+" + num + "%</td>";
+        } else {
+          return "<td>" + num + "%</td>";
+        }
+      };
       
       const getPrices = async () => {
         try{
@@ -86,9 +95,13 @@
           // do something with myJson
           priceData = Object.keys(myJson);
           for(curr of priceData){
-            if(curr!='lastDate')
-              $("#tbody-prices").append("<tr><td>" + curr + "</td><td>" + myJson[curr]["price"]
-                  + "</td><td>" + myJson[curr]["change%"] + "</td></tr>");
+            if(curr!='lastDate'){
+              $("#tbody-prices").append("<tr>");
+              $("#tbody-prices").append("<td>" + curr + "</td>");
+              $("#tbody-prices").append("<td>" + myJson[curr]["price"] + "</td>");
+              $("#tbody-prices").append(getChangeHTML(myJson[curr]["change%"]));
+              $("#tbody-prices").append("</tr>");
+            }
           }
           $("#lastDate").html(myJson['lastDate']);
            
@@ -97,6 +110,5 @@
         } 
       }
     </script>
-
   </body>
 </html>
