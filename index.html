@@ -18,7 +18,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Share&display=swap" rel="stylesheet">
 
-    <title>Goldometer</title>
+    <!-- SEO Tags -->
+    <title>Gold price today | Get Gold Spot Prices in ounces & grams for different currencies | Gold rate USD | Goldometer</title>
+    <meta name="keywords" content="gold price, gold prices, gold price today, gold rate, goldometer, goldometer.org" />
   </head>
   <body>
   <div class="container">
@@ -28,7 +30,7 @@
   </div>
 
   <div class="container border border-secondary py-2">
-    <h1>Gold Spot Prices</h1>
+    <h2>Gold Price Today</h2>
     <p>Goldometer is the fastest and most reliable source of live gold data & insight.</p>
   </div>
 
@@ -59,7 +61,21 @@
     </form>
   </div>
   -->
-  
+
+  <!-- TradingView Widget BEGIN -->
+  <div class="container text-center border border-secondary py-2">
+    <h2>Gold Price Today</h2>
+    <div class="tradingview-widget-container py-2">
+      <div id="tradingview_a5f2d"></div>
+      <div class="tradingview-widget-copyright">
+        <a href="https://www.tradingview.com/symbols/FX_IDC-XAUUSD/" rel="noopener" target="_blank">
+          <span class="blue-text">XAUUSD Chart</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
     <div class="container">
       <span class="text-muted float-right">About Us | Privacy Policy</span>
@@ -72,10 +88,28 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-
+    
     <script type="text/javascript">
-      $(document).ready(() => {
+      $(document).ready(() => {        
         getPrices();
+        
+        $("#tradingview_a5f2d").height($(window).height() * 0.9);
+        new TradingView.widget(
+          {
+          "autosize": true,
+          "symbol": "FX_IDC:XAUUSD",
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "light",
+          "style": "1",
+          "locale": "en",
+          "toolbar_bg": "#f1f3f6",
+          "enable_publishing": false,
+          "withdateranges": true,
+          "save_image": false,
+          "container_id": "tradingview_a5f2d"
+        }
+          );
       });
 
       const getChangeHTML = (num) => {
@@ -109,6 +143,25 @@
           console.log("Unable to load data " + err);
         } 
       }
+    </script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+      new TradingView.widget(
+        {
+        "autosize": true,
+        "symbol": "FX_IDC:XAUUSD",
+        "interval": "D",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "withdateranges": true,
+        "save_image": false,
+        "container_id": "tradingview_a5f2d"
+        }
+      );
     </script>
   </body>
 </html>
