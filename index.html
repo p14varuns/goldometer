@@ -131,7 +131,7 @@
       
       const getPrices = async () => {
         try{
-          const response = await fetch('http://api.goldometer.org/');
+          const response = await fetch('https://api.goldometer.org/');
           const myJson = await response.json(); //extract JSON from the http response
           // do something with myJson
           priceData = Object.keys(myJson);
