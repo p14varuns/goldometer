@@ -142,11 +142,16 @@
           );
       });
 
-      const getChangeHTML = (num) => {
+      const getChangeHTML = (num, percent=1) => {
+        followon = "";
+        if(percent){
+          followon = "%";
+        };
+
         if(num < 0){
-          return "<td style='color:red'>" + num + "%</td>";
+          return "<td style='color:red'>" + num + followon + "</td>";
         } else if (num > 0){
-          return "<td style='color:green'>+" + num + "%</td>";
+          return "<td style='color:green'>+" + num + followon + "</td>";
         } else {
           return "<td>" + num + "%</td>";
         }
@@ -183,7 +188,7 @@
           for(index of returnData){
             $("#tbody-returns").append("<tr>");
             $("#tbody-returns").append("<td>" + index + "</td>");
-            $("#tbody-returns").append("<td>" + myJson[index]["Amount"] + "</td>");
+            $("#tbody-returns").append(getChangeHTML(myJson[index]["Amount"], 0));
             $("#tbody-returns").append(getChangeHTML(myJson[index]["%Return"]));
             $("#tbody-returns").append("</tr>");
           } 
