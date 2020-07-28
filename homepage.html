@@ -94,19 +94,7 @@
       <button class="btn btn-primary" type="submit">Get Daily Alerts</button>
     </form>
   </div>
-  -->
-  
-  <!-- TradingView Widget BEGIN
-  <div class="container text-center border border-secondary py-2">
-    <h2>Gold Price Today</h2>
-    <div class="tradingview-widget-container py-2">
-      <div id="tradingview_a5f2d"></div>
-      <div class="tradingview-widget-copyright">
-        <span class='blue-text'>XAUUSD Chart</span>
-      </div>
-    </div>
-  </div>
-   -->
+  --> 
 
   <!-- Footer -->
   <footer class="footer">
@@ -128,26 +116,8 @@
           getPrices();
           getReturns();
           getPosts();
-        };
-
-        /*$("#tradingview_a5f2d").height($(window).height() * 0.9);
-        new TradingView.widget(
-          {
-          "autosize": true,
-          "symbol": "FX_IDC:XAUUSD",
-          "interval": "D",
-          "timezone": "Etc/UTC",
-          "theme": "light",
-          "style": "1",
-          "locale": "en",
-          "toolbar_bg": "#f1f3f6",
-          "enable_publishing": false,
-          "withdateranges": true,
-          "save_image": false,
-          "container_id": "tradingview_a5f2d"
         }
-          );
-      });*/
+      });
 
       const getChangeHTML = (num, percent=1) => {
         followon = "";
@@ -227,26 +197,6 @@
           }
         }
       };
-    </script>
-    /*<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script type="text/javascript">
-      new TradingView.widget(
-        {
-        "autosize": true,
-        "symbol": "FX_IDC:XAUUSD",
-        "interval": "D",
-        "timezone": "Etc/UTC",
-        "theme": "light",
-        "style": "1",
-        "locale": "en",
-        "toolbar_bg": "#f1f3f6",
-        "enable_publishing": false,
-        "withdateranges": true,
-        "save_image": false,
-        "container_id": "tradingview_a5f2d"
-        }
-      );
-    </script>
-    */
+    </script>    
   </body>
 </html>
