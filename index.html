@@ -53,9 +53,7 @@
           <th scope="col">Change %</th>
         </tr>
       </thead>
-      <tbody id="tbody-prices">
-
-      </tbody>
+      <tbody id="tbody-prices"></tbody>
     </table>
     <p>*Last Reported: <span id="lastDate"></span> 14:00 GMT</p>
   </div>
@@ -83,9 +81,7 @@
           <th scope="col">Change %</th>
         </tr>
       </thead>
-      <tbody id="tbody-returns">
-
-      </tbody>
+      <tbody id="tbody-returns"></tbody>
     </table>
   </div>
 
@@ -127,10 +123,12 @@
     
     <script type="text/javascript">
       $(document).ready(() => {        
-        getPrices();
-        getReturns();
-        getPosts();
-        
+        if($("#tbody-prices").is(':empty')){
+          getPrices();
+          getReturns();
+          getPosts();
+        };
+
         $("#tradingview_a5f2d").height($(window).height() * 0.9);
         new TradingView.widget(
           {
@@ -166,61 +164,66 @@
       };
       
       const getPrices = async () => {
-        try{
-          const response = await fetch('https://api.goldometer.org/prices');
-          const myJson = await response.json(); //extract JSON from the http response
-          // do something with myJson
-          priceData = Object.keys(myJson);
-          for(curr of priceData){
-            if(curr!='lastDate'){
-              $("#tbody-prices").append("<tr>");
-              $("#tbody-prices").append("<td>" + curr + "</td>");
-              $("#tbody-prices").append("<td>" + myJson[curr]["price"] + "</td>");
-              $("#tbody-prices").append(getChangeHTML(myJson[curr]["change%"]));
-              $("#tbody-prices").append("</tr>");
+        if($("#tbody-prices").is(':empty')){
+          try{
+            const response = await fetch('https://api.goldometer.org/prices');
+            const myJson = await response.json(); //extract JSON from the http response
+            // do something with myJson
+            priceData = Object.keys(myJson);
+            for(curr of priceData){
+              if(curr!='lastDate'){
+                $("#tbody-prices").append("<tr>");
+                $("#tbody-prices").append("<td>" + curr + "</td>");
+                $("#tbody-prices").append("<td>" + myJson[curr]["price"] + "</td>");
+                $("#tbody-prices").append(getChangeHTML(myJson[curr]["change%"]));
+                $("#tbody-prices").append("</tr>");
+              }
             }
+            $("#lastDate").html(myJson['lastDate']);
+          } catch(err){
+            console.log("Unable to load data");
           }
-          $("#lastDate").html(myJson['lastDate']);
-           
-        } catch(err){
-          console.log("Unable to load data");
-        } 
+        }
       };
 
       const getReturns = async () => {
-        try{
-          const response = await fetch('https://api.goldometer.org/returns');
-          const myJson = await response.json(); //extract JSON from the http response
-          // do something with myJson
-          returnData = Object.keys(myJson);
-          for(index of returnData){
-            $("#tbody-returns").append("<tr>");
-            $("#tbody-returns").append("<td>" + index + "</td>");
-            $("#tbody-returns").append(getChangeHTML(myJson[index]["Amount"], 0));
-            $("#tbody-returns").append(getChangeHTML(myJson[index]["%Return"]));
-            $("#tbody-returns").append("</tr>");
+        if($("#tbody-returns").is(':empty')){
+          try{
+            const response = await fetch('https://api.goldometer.org/returns');
+            const myJson = await response.json(); //extract JSON from the http response
+            // do something with myJson
+            returnData = Object.keys(myJson);
+            for(index of returnData){
+              $("#tbody-returns").append("<tr>");
+              $("#tbody-returns").append("<td>" + index + "</td>");
+              $("#tbody-returns").append(getChangeHTML(myJson[index]["Amount"], 0));
+              $("#tbody-returns").append(getChangeHTML(myJson[index]["%Return"]));
+              $("#tbody-returns").append("</tr>");
+            }
+          } catch(err){
+            console.log("Unable to load data");
           } 
-        } catch(err){
-          console.log("Unable to load data");
-        } 
+        }
       };
 
 
       const getPosts = async () => {
-        try{
-          const response = await fetch('https://api.goldometer.org/posts');
-          const posts = await response.json(); //extract JSON from the http response
-          for(post of posts){
-            var html = '<div class="col-sm border-right py-2">';
-            html += '<a style="color:#000000;" href="https://goldometer.org/news' + post["permalink"] + '">';
-            html += '<img src="https://goldometer.org/news/wp-content/uploads/' + post["img_link"] + '" width="100%" alt="' + post["alt-text"] + '">';
-            html += post["post_title"];
-            html += "</a></div>";
+        if($("#latestposts").is(':empty')){
+          try{
+            const response = await fetch('https://api.goldometer.org/posts');
+            const posts = await response.json(); //extract JSON from the http response
+            for(post of posts){
+              var html = '<div class="col-sm border-right py-2">';
+              html += '<a style="color:#000000;" href="https://goldometer.org/news' + post["permalink"] + '">';
+              html += '<img src="https://goldometer.org/news/wp-content/uploads/' + post["img_link"] + '" width="100%" alt="' + post["alt-text"] + '">';
+              html += post["post_title"];
+              html += "</a></div>";
 
-            $("#latestposts").append(html);
+              $("#latestposts").append(html);
+            }
+          } catch(err){
+            console.log("Unable to load data");
           }
-        } catch(err){
-          console.log("Unable to load data");
         }
       };
     </script>
