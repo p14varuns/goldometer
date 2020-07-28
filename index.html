@@ -213,7 +213,7 @@
           for(post of posts){
             var html = '<div class="col-sm border-right py-2">';
             html += '<a style="color:#000000;" href="https://goldometer.org/news' + post["permalink"] + '">';
-            html += '<img src="https://goldometer.org/news/wp-content/uploads/' + post["img_link"] + '" width="100%">'; //alt="Mark Mobius"
+            html += '<img src="https://goldometer.org/news/wp-content/uploads/' + post["img_link"] + '" width="100%" alt="' + post["alt-text"] + '">';
             html += post["post_title"];
             html += "</a></div>";
 
