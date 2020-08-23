@@ -54,6 +54,10 @@
     <div class="row" id="latestposts"></div>
   </div>
 
+  <div class="container text-center border border-secondary py-2">
+    <h2>Gold Price Chart in USD</h2>
+    <div id="curve_chart" style="width: 100%; height: 500px"></div>
+  </div>
 
   <div class="container text-center border border-secondary py-2">
     <h2>About LBMA Gold Price</h2>
@@ -188,6 +192,37 @@
           }
         }
       };
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      const drawChart = async () => {
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Gold Price in USD');
+        const response = await fetch('https://api.goldometer.org/hist-prices');
+        const histPrices = await response.json(); //extract JSON from the http response
+        for(i = 0; i<histPrices.length; i++)
+          data.addRow([new Date(histPrices[i][0]),histPrices[i][1]]);
+
+        var options = {
+          title: 'Gold Price Performance in USD in last 30 days',
+          curveType: 'function',
+          legend: { position: 'bottom' },
+          vAxis: {
+            gridlines: {count: 4}
+            },
+          hAxis: { gridlines: {count: 4, color: 'none'}}
+        };
+        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart.draw(data, options);
+      };
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    $(window).resize(function(){
+      drawChart();
+    });
     </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
